@@ -1,0 +1,10 @@
+---
+- name: Creating Two EC2 Instances Behind Elastic Application Load Balance
+  hosts: localhost
+  vars_files: secrets.yml
+  connection: local
+  become: true
+  roles:
+#    - createInstances
+#    - createLoadBalancer
+    - createTargetGroup
