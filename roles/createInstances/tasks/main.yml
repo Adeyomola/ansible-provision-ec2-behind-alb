@@ -14,3 +14,33 @@
     region: us-east-1
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
+  register: output
+- ec2_instance_info:
+    instance_ids:
+      - "{{ output.instance_ids[0] }}"
+      - "{{ output.instance_ids[1] }}"
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  register: info
+- name: Print
+  debug:
+    var: info.instances[0]
+#- name: Wait for Instances to Start Running
+#  wait_for:
+#    timeout: 200
+#- name: Create Target Group
+#  elb_target_group:
+#    name: BiServer
+#    protocol: http
+#    port: 80
+#    vpc_id: vpc-0fb6e33390deff482
+#    targets:
+#      - Id: "{{ output.instance_ids[0] }}"
+#        Port: 80
+#      - Id: "{{ output.instance_ids[1] }}"
+#        Port: 80
+#    state: present
+#    region: us-east-1
+#    access_key: "{{ aws_access_key }}"
+#    secret_key: "{{ aws_secret_key }}"
