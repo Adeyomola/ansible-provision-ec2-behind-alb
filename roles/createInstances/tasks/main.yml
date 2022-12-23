@@ -9,7 +9,7 @@
     instance_type: t2.micro
     security_group: launch-wizard-3
     vpc_subnet_id: 
-    user_data: user_data.sh
+    user_data: "{{ lookup('file', 'user_data.sh') }}"
     key_name: windows11
     region: us-east-1
     access_key: "{{ aws_access_key }}"
