@@ -1,2 +1,14 @@
 ---
 # tasks file for createLoadBalancer
+- name: Create Load Balancer
+  amazon.aws.elb_application_lb:
+    name: BiServer-LB
+    region: us-east-1
+    listeners:
+      - Protocol: http
+        Port: 80
+        DefaultActions:
+          - Type: forward
+            TargetName: BiServer
+    state: present
+

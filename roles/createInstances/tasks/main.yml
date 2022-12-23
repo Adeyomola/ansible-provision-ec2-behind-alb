@@ -14,8 +14,10 @@
     region: us-east-1
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
+    network:
+      assign_public_ip: false
   register: output
-- ec2_instance_info:
+- amazon.aws.ec2_instance_info:
     instance_ids:
       - "{{ output.instance_ids[0] }}"
       - "{{ output.instance_ids[1] }}"
@@ -28,7 +30,7 @@
     timeout: 20
   when: info.instances[0].state.name == "pending" and info.instances[1].state.name == "pending"
 - name: Create Target Group
-  elb_target_group:
+  communtiy.aws.elb_target_group:
     name: BiServer
     protocol: http
     port: 80
