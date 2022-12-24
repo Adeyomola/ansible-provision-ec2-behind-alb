@@ -1,49 +1,16 @@
 ---
 # tasks file for rol
-- name: importing
-  import_tasks: createVPCandSubnets.yml
+- name: Create VPC
+  import_tasks: VPC.yml
+- name: Create Internet Gateway
+  import_tasks: IGW.yml
+- name: Create Subnets and Security Group
+  import_tasks: SubnetsandSG.yml
+- name: Create and Associate Route Table to Public Subnet
+  import_tasks: RouteTable.yml
 - name: Create Instances
-  amazon.aws.ec2_instance:
-    name: Server-LB
-    state: present
-    image_id: ami-0574da719dca65348
-    count: 2
-    instance_type: t2.micro
-    security_group: "{{ sg.group_name }}"
-    vpc_subnet_id: "{{ privatesubnet.subnet.id }}"
-    user_data: "{{ lookup('file', 'user_data.sh') }}"
-    key_name: windows11
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
-    network:
-      assign_public_ip: false
-  register: instance_data
-- amazon.aws.ec2_instance_info:
-    instance_ids:
-      - "{{ instance_data.instance_ids[0] }}"
-      - "{{ instance_data.instance_ids[1] }}"
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
-  register: info
-- name: Wait for Instances to Start Running
-  wait_for:
-    timeout: 60
-  when: info.instances[0].state.name == "pending" and info.instances[1].state.name == "pending"
+  import_tasks: Instances.yml
 - name: Create Target Group
-  community.aws.elb_target_group:
-    name: BiServer
-    protocol: http
-    port: 80
-    vpc_id: "{{ vpc.vpc.id }}"
-    targets:
-      - Id: "{{ instance_data.instance_ids[0] }}"
-        Port: 80
-      - Id: "{{ instance_data.instance_ids[1] }}"
-        Port: 80
-    state: present
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
-  tags: tg
+  import_tasks: TG.yml
+- name: Create Load Balancer
+  import_tasks: LoadBalancer.yml

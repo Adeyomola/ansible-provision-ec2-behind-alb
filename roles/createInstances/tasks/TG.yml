@@ -1,0 +1,17 @@
+---
+- name: Create Target Group
+  community.aws.elb_target_group:
+    name: BiServer
+    protocol: http
+    port: 80
+    vpc_id: "{{ vpc.vpc.id }}"
+    targets:
+      - Id: "{{ instance_data.instance_ids[0] }}"
+        Port: 80
+      - Id: "{{ instance_data.instance_ids[1] }}"
+        Port: 80
+    state: present
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  tags: tg

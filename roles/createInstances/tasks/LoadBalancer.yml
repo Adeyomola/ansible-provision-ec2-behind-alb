@@ -1,0 +1,19 @@
+---
+- name: Create Load Balancer
+  amazon.aws.elb_application_lb:
+    name: BiServer-LB
+    region: us-east-1
+    listeners:
+      - Protocol: HTTP
+        Port: 80
+        DefaultActions:
+          - Type: forward
+            TargetGroupName: BiServer
+    state: present
+    security_groups:
+      - "{{ sg2.group_name }}"
+    subnets:
+      - "{{ publicsubnet.subnet.id }}"
+      - "{{ publicsubnet1.subnet.id }}"
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
