@@ -1,5 +1,23 @@
 ---
 # tasks file for createLoadBalancer
+- name: Create Security Group for Load Balancer
+  amazon.aws.ec2_security_group:
+    name: biserver-sg-public
+    description: "Allows incoming traffic from the internet"
+    vpc_id: "{{ vpc.vpc.id }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 10.0.0.0/16
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  register: sg2
 - name: Create Load Balancer
   amazon.aws.elb_application_lb:
     name: BiServer-LB
@@ -9,6 +27,11 @@
         Port: 80
         DefaultActions:
           - Type: forward
-            TargetName: BiServer
+            TargetGroupName: BiServer
     state: present
-
+    security_groups: "{{ sg2.group_name }}"
+    subnets:
+      - "{{ publicsubnet.subnet.id }}"
+      - "{{ privatesubnet.subnet.id }}"
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"

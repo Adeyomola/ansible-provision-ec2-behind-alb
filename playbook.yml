@@ -6,4 +6,4 @@
   become: true
   roles:
     - createInstances
-#    - createLoadBalancer
+    - createLoadBalancer
