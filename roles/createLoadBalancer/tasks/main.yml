@@ -23,7 +23,7 @@
     name: BiServer-LB
     region: us-east-1
     listeners:
-      - Protocol: http
+      - Protocol: HTTP
         Port: 80
         DefaultActions:
           - Type: forward
