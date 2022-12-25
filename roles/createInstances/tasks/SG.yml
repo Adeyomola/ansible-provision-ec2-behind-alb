@@ -1,0 +1,28 @@
+---
+- name: Create Security Group for Instances
+  amazon.aws.ec2_security_group:
+    name: biserver-sg
+    description: "Allows all incoming traffic from VPC network"
+    vpc_id: "{{ vpc.vpc.id }}"
+    rules:
+      - proto: all
+        cidr_ip: 10.0.0.0/16
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  register: sg
+
+- name: Create Security Group for Load Balancer
+  amazon.aws.ec2_security_group:
+    name: biserver-sg-public
+    description: "Allows incoming traffic from the internet"
+    vpc_id: "{{ vpc.vpc.id }}"
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  register: sg2

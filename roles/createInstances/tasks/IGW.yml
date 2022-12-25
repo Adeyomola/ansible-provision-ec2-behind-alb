@@ -6,3 +6,12 @@
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
   register: igw
+
+- name: Lookup Main Route Table
+  amazon.aws.ec2_vpc_route_table_info:
+    region: us-east-1
+    filters:
+      vpc-id: "{{ vpc.vpc.id }}"
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  register: route_table

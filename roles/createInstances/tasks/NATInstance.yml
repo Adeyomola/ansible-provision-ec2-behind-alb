@@ -1,0 +1,56 @@
+---
+- name: Create NAT Instance Security group
+  amazon.aws.ec2_security_group:
+    name: NAT-sg
+    description: "Allows all incoming traffic from VPC CIDR"
+    vpc_id: "{{ vpc.vpc.id }}"
+    rules:
+      - proto: TCP
+        from_port: 80
+        to_port: 443
+        cidr_ip: 10.0.0.0/16
+      - proto: TCP
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  register: sg3
+ 
+- name: Create NAT Instance
+  amazon.aws.ec2_instance:
+    name: NAT
+    state: present
+    image_id: ami-0574da719dca65348
+    count: 1
+    instance_type: t2.micro
+    security_group: "{{ sg3.group_name }}"
+    vpc_subnet_id: "{{ publicsubnet.subnet.id }}"
+    network:
+      source_dest_check: false
+      assign_public_ip: true
+    user_data: "{{ lookup('file', 'NAT.sh') }}"
+    key_name: windows11
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  register: NAT_instance
+
+- name: Wait for NAT Instance to Start Running
+  wait_for:
+    timeout: 60
+  when: NAT_instance.instances[0].metadata_options.state == "pending"
+
+- name: Update Main Route Table
+  amazon.aws.ec2_vpc_route_table:
+    vpc_id: "{{ vpc.vpc.id }}"
+    route_table_id: "{{ route_table.route_tables[0].id }}"
+    region: us-east-1
+    subnets:
+      - "{{ privatesubnet.subnet.id }}"
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+    routes:
+      - dest: 0.0.0.0/0
+        instance_id: "{{ NAT_instance.instances[0].instance_id }}"

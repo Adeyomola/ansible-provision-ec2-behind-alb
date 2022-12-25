@@ -4,6 +4,7 @@
     name: BiServer
     protocol: http
     port: 80
+    health_check_port: 80
     vpc_id: "{{ vpc.vpc.id }}"
     targets:
       - Id: "{{ instance_data.instance_ids[0] }}"

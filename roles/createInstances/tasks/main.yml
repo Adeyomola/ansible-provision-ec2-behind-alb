@@ -1,13 +1,17 @@
 ---
-# tasks file for rol
+# tasks file for role
 - name: Create VPC
   import_tasks: VPC.yml
 - name: Create Internet Gateway
   import_tasks: IGW.yml
-- name: Create Subnets and Security Group
-  import_tasks: SubnetsandSG.yml
+- name: Create Subnets
+  import_tasks: Subnets.yml
 - name: Create and Associate Route Table to Public Subnet
   import_tasks: RouteTable.yml
+- name: Create Security Groups
+  import_tasks: SG.yml
+- name: Create NAT Instance.yml
+  import_tasks: NATInstance.yml
 - name: Create Instances
   import_tasks: Instances.yml
 - name: Create Target Group

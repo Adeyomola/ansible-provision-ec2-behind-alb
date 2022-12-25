@@ -9,7 +9,7 @@
     security_group: "{{ sg.group_name }}"
     vpc_subnet_id: "{{ privatesubnet.subnet.id }}"
     user_data: "{{ lookup('file', 'user_data.sh') }}"
-    key_name: windows11
+    key_name: test
     region: us-east-1
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
