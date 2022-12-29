@@ -6,6 +6,6 @@ sudo systemctl enable nginx
 sudo echo '<!DOCTYPE html>
 <html lang="en">
 <body>' > /var/www/html/index.html
-echo $(dnsdomainname -f) >> /var/www/html/index.html
-echo '</body>
+sudo echo $(dnsdomainname -f) >> /var/www/html/index.html
+sudo echo '</body>
 </html>' >> /var/www/html/index.html

@@ -1,31 +1,33 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role creates two web servers behind an application load balancer using two EC2 instances on a private network and an NAT Instance. 
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Boto3 >= 1.18.0
+- Botocore >= 1.21.0
+- Python >= 3.6
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- The primary variables needed for this role are the access keys/profile, depending on how you choose to grant access to your AWS account.
+- Other variables you may work with include:
+    * region
+    * az (availability zone)
+- Use ansible vault to encrypt sensitive data.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
+    - hosts: localhost
+      connection: local
+      become: true
+      vars_file: keys.yml #file containing access keys or profile
       roles:
-         - { role: username.rolename, x: 42 }
+         - role
 
 License
 -------
@@ -35,4 +37,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Adeyomola Kazeem
