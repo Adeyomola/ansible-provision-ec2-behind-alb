@@ -18,3 +18,5 @@
   import_tasks: TG.yml
 - name: Create Load Balancer
   import_tasks: LoadBalancer.yml
+- name: Import ASG
+  import_tasks: ASG.yml

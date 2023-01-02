@@ -1,0 +1,15 @@
+---
+- name: Creating AutoScaling Group
+  amazon.aws.autoscaling_group:
+    name: BiServerASG
+    load_balancers: [ 'BiServer-LB' ]
+    region: us-east-1
+    availability_zones: [ 'us-east-1a', 'us-east-1b' ]
+    launch_config_name: 'BiServer-LC'
+    min_size: 1
+    max_size: 4
+    desired_capacity: 2
+    vpc_zone_identifier: [ 'BiServer Private' ]
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  tags: asg
