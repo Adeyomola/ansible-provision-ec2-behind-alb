@@ -17,3 +17,4 @@
       - "{{ publicsubnet1.subnet.id }}"
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
+  register: load_balancer

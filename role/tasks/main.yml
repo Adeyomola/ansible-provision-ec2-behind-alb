@@ -18,5 +18,7 @@
   import_tasks: TG.yml
 - name: Create Load Balancer
   import_tasks: LoadBalancer.yml
-- name: Import ASG
+- name: Create Launch Configuration
+  import_tasks: LaunchConfig.yml
+- name: Create Autoscaling Group
   import_tasks: ASG.yml
