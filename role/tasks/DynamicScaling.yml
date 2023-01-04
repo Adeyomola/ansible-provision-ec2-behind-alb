@@ -5,6 +5,6 @@
     dest: ~/holiday_challenge/role/files/AverageCPUPolicy.sh
   become: false
 
-- name: Configure CPU Utilization Policy fo AutoScaling
+- name: Configure CPU Utilization Policy for AutoScaling
   shell: "{{ lookup('file', 'AverageCPUPolicy.sh') }}"
   become: false

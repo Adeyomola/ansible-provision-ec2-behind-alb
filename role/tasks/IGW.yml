@@ -1,5 +1,5 @@
 ---
-- name: Create Internet Gateway
+- name: Create Internet Gateway for VPC
   amazon.aws.ec2_vpc_igw:
     vpc_id: "{{ vpc.vpc.id }}"
     region: us-east-1
