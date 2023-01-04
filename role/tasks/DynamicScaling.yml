@@ -1,0 +1,10 @@
+---
+- name: Template Policy Executable
+  template:
+    src: ~/holiday_challenge/role/templates/AverageCPUPolicy.sh.j2
+    dest: ~/holiday_challenge/role/files/AverageCPUPolicy.sh
+  become: false
+
+- name: Configure CPU Utilization Policy fo AutoScaling
+  shell: "{{ lookup('file', 'AverageCPUPolicy.sh') }}"
+  become: false

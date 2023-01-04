@@ -22,3 +22,5 @@
   import_tasks: LaunchConfig.yml
 - name: Create Autoscaling Group
   import_tasks: ASG.yml
+- name: CPU Utilization AutoScaling
+  import_tasks: DynamicScaling.yml
