@@ -1,7 +1,8 @@
 Role Name
 =========
 
-This role creates two web servers behind an application load balancer using two EC2 instances on a private network and an NAT Instance. 
+This role creates two web servers behind an application load balancer using two EC2 instances on a private network and an NAT Instance.
+It also sets up an autoscaling policy that tries to maintain CPU usage at 30%.
 
 Requirements
 ------------
