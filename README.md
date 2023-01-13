@@ -8,7 +8,6 @@ Else, you could use:
 ansible-playbook ~/project_folder/playbook.yml --ask-vault-pass
 ~~~~
 or:
-Else, you could use:
 ~~~~
 ansible-playbook ~/project_folder/playbook.yml --vault-password-file
 ~~~~
