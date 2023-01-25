@@ -7,9 +7,9 @@
     health_check_port: 80
     vpc_id: "{{ vpc.vpc.id }}"
     targets:
-      - Id: "{{ instance_data.instance_ids[0] }}"
+      - Id: "{{ instance_data.results[0].instance_ids[0] }}"
         Port: 80
-      - Id: "{{ instance_data.instance_ids[1] }}"
+      - Id: "{{ instance_data.results[1].instance_ids[0] }}"
         Port: 80
     state: present
     region: us-east-1

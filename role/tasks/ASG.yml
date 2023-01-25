@@ -4,11 +4,11 @@
     name: BiServerASG
     region: us-east-1
     target_group_arns: "{{ tg.target_group_arn }}"
-    availability_zones: [ 'us-east-1a' ]
+    availability_zones: [ 'us-east-1a', 'us-east-1b' ]
     launch_config_name: 'BiServer-LC'
     min_size: 0
     max_size: 2
-    vpc_zone_identifier: "{{ privatesubnet.subnet.id }}"
+    vpc_zone_identifier: [ "{{ privatesubnet.subnet.id }}", "{{ privatesubnet1.subnet.id }}" ]
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
   tags: asg

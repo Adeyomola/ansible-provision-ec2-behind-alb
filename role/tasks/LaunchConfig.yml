@@ -4,7 +4,10 @@
     name: BiServer-LC
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
-    instance_id: "{{ instance_data.instance_ids[0] }}"
+    instance_id: "{{ item }}"
     region: us-east-1
     security_groups: "{{ sg.group_name }}"
     user_data: "{{ lookup('file', 'user_data.sh') }}"
+  with_items:
+    - "{{ instance_data.results[0].instance_ids[0] }}"
+    - "{{ instance_data.results[1].instance_ids[0] }}"
