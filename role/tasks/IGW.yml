@@ -12,6 +12,7 @@
     region: us-east-1
     filters:
       vpc-id: "{{ vpc.vpc.id }}"
+      association.main: true
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
   register: route_table

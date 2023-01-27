@@ -55,3 +55,4 @@
     routes:
       - dest: 0.0.0.0/0
         instance_id: "{{ NAT_instance.instances[0].instance_id }}"
+  register: rt1

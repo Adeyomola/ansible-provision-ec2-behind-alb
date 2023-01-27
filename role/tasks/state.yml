@@ -1,0 +1,15 @@
+---
+- name: Infrastructure State Variables
+  set_fact:
+    server_lb_1_id: "{{ instance_data.results[0].instance_ids[0] }}"
+    server_lb_2_id: "{{ instance_data.results[1].instance_ids[0] }}"
+    nat_id: "{{ NAT_instance.instance_ids[0] }}"
+    lb_name: "{{ load_balancer.load_balancer_name }}"
+    tg_name: "{{ tg.target_group_name }}"
+    asg_name: "{{ asg.auto_scaling_group_name }}"
+    lc_name: "{{ lc.results[1].name }}"
+    vpc: { 'id': "{{ vpc.vpc.id }}", 'name': "{{ vpc.vpc.name }}"}
+    subnets_cidr: ["{{ privatesubnet.subnet.cidr_block }}", "{{ privatesubnet1.subnet.cidr_block }}", "{{ publicsubnet.subnet.cidr_block }}", "{{ publicsubnet1.subnet.cidr_block }}"]
+    rt_ids: ["{{ rt.route_table.id }}", "{{ rt1.route_table.id }}"]
+    sg_ids: ["{{ sg.group_id }}", "{{ sg2.group_id }}", "{{ sg3.group_id }}"]
+    cacheable: true

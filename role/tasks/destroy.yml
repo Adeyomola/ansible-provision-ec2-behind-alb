@@ -1,0 +1,91 @@
+---
+- name: Destroy Instances
+  amazon.aws.ec2_instance:
+    instance_ids:
+      - "{{ server_lb_1_id }}"
+      - "{{ server_lb_2_id }}"
+      - "{{ nat_id }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+
+- name: Destroy Load Balancer
+  amazon.aws.elb_application_lb:
+    name: "{{ lb_name }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+
+- name: Destroy Target Group
+  community.aws.elb_target_group:
+    name: "{{ tg_name }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+
+- name: Destroy Autoscaling Group
+  amazon.aws.autoscaling_group:
+    name: "{{ asg_name }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+
+- name: Destroy Launch Configuration
+  community.aws.autoscaling_launch_config:
+    name: "{{ lc_name }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+
+- name: Destroy Subnets
+  amazon.aws.ec2_vpc_subnet:
+    cidr: "{{ item }}"
+    vpc_id: "{{ vpc.id }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  loop: "{{ subnets_cidr }}"
+
+- name: Destroy Route Tables
+  amazon.aws.ec2_vpc_route_table:
+    vpc_id: "{{ vpc.id }}"
+    lookup: id
+    route_table_id: "{{  item }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  loop: "{{ rt_ids }}"
+
+- name: Destroy Internet Gateway
+  amazon.aws.ec2_vpc_igw:
+    vpc_id: "{{ vpc.id }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+
+- name: Destroy Security Groups
+  amazon.aws.ec2_security_group:
+    group_id: "{{ item }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+  loop: "{{ sg_ids }}"
+
+- name: Destroy VPC and its remaining components
+  amazon.aws.ec2_vpc_net:
+    name: "{{ vpc.name }}"
+    vpc_id: "{{ vpc.id }}"
+    state: absent
+    region: us-east-1
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+

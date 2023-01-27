@@ -24,3 +24,7 @@
   import_tasks: ASG.yml
 - name: CPU Utilization AutoScaling
   import_tasks: DynamicScaling.yml
+- name: Set Facts
+  import_tasks: state.yml
+- name: Destroy Infrastructure
+  import_tasks: destroy.yml

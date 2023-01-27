@@ -20,7 +20,7 @@
     access_key: "{{ aws_access_key }}"
     secret_key: "{{ aws_secret_key }}"
     tags:
-      Name: BiServer Private
+      Name: BiServer Private1
   register: privatesubnet1
 
 - name: Create Public Subnet in AZ a

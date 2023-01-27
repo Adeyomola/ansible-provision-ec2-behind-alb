@@ -11,3 +11,4 @@
     routes:
       - dest: 0.0.0.0/0
         gateway_id: "{{ igw.gateway_id }}"
+  register: rt
