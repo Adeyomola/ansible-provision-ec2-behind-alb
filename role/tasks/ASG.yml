@@ -11,5 +11,4 @@
     vpc_zone_identifier: [ "{{ privatesubnet.subnet.id }}", "{{ privatesubnet1.subnet.id }}" ]
     access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
     secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
-  tags: asg
   register: asg
