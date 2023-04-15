@@ -2,17 +2,17 @@
 - name: Create Internet Gateway for VPC
   amazon.aws.ec2_vpc_igw:
     vpc_id: "{{ vpc.vpc.id }}"
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   register: igw
 
 - name: Lookup Main Route Table
   amazon.aws.ec2_vpc_route_table_info:
-    region: us-east-1
     filters:
       vpc-id: "{{ vpc.vpc.id }}"
       association.main: true
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   register: route_table

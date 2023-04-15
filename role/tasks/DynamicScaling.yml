@@ -1,8 +1,8 @@
 ---
 - name: Template Policy Executable
   template:
-    src: ~/holiday_challenge/role/templates/AverageCPUPolicy.sh.j2
-    dest: ~/holiday_challenge/role/files/AverageCPUPolicy.sh
+    src: "{{ role_path }}/templates/AverageCPUPolicy.sh.j2"
+    dest: "{{ role_path }}/files/AverageCPUPolicy.sh"
   become: false
 
 - name: Configure CPU Utilization Policy for AutoScaling

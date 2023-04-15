@@ -13,16 +13,16 @@
         from_port: 22
         to_port: 22
         cidr_ip: 0.0.0.0/0
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   register: sg3
  
 - name: Create NAT Instance
   amazon.aws.ec2_instance:
     name: NAT
     state: present
-    image_id: ami-0574da719dca65348
+    image_id: ami-00aa9d3df94c6c354
     count: 1
     instance_type: t2.micro
     security_group: "{{ sg3.group_name }}"
@@ -32,9 +32,9 @@
       assign_public_ip: true
     user_data: "{{ lookup('file', 'NAT.sh') }}"
     key_name: windows11
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   register: NAT_instance
 
 - name: Wait for NAT Instance to Start Running
@@ -46,12 +46,12 @@
   amazon.aws.ec2_vpc_route_table:
     vpc_id: "{{ vpc.vpc.id }}"
     route_table_id: "{{ route_table.route_tables[0].id }}"
-    region: us-east-1
+    region: "{{ region }}"
     subnets:
       - "{{ privatesubnet.subnet.id }}"
       - "{{ privatesubnet1.subnet.id }}"
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
     routes:
       - dest: 0.0.0.0/0
         instance_id: "{{ NAT_instance.instances[0].instance_id }}"

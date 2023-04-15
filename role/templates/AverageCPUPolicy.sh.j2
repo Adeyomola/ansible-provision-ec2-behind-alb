@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 aws autoscaling put-scaling-policy --policy-name tt-cpu-scaling \
   --auto-scaling-group-name "{{ asg.auto_scaling_group_name }}" --policy-type TargetTrackingScaling \
-  --target-tracking-configuration file:///home/ubuntu/holiday_challenge/role/files/ttconfig.json
+  --target-tracking-configuration "file:///{{ role_path }}/files/ttconfig.json" --region "{{ region }}"

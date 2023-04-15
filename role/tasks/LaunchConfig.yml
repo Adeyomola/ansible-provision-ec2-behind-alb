@@ -2,10 +2,10 @@
 - name: Create Launch Configuration for AutoScaling
   community.aws.autoscaling_launch_config:
     name: BiServer-LC
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
     instance_id: "{{ item }}"
-    region: us-east-1
     security_groups: "{{ sg.group_name }}"
     user_data: "{{ lookup('file', 'user_data.sh') }}"
   with_items:

@@ -2,12 +2,12 @@
 - name: Create Route Table for Public Subnet
   amazon.aws.ec2_vpc_route_table:
     vpc_id: "{{ vpc.vpc.id }}"
-    region: us-east-1
     subnets:
       - "{{ publicsubnet.subnet.id }}"
       - "{{ publicsubnet1.subnet.id }}"
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
     routes:
       - dest: 0.0.0.0/0
         gateway_id: "{{ igw.gateway_id }}"

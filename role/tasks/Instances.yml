@@ -3,15 +3,15 @@
   amazon.aws.ec2_instance:
     name: 'Server-LB-{{ item.index }}'
     state: present
-    image_id: ami-0574da719dca65348
+    image_id: ami-00aa9d3df94c6c354
     instance_type: t2.micro
     security_group: "{{ sg.group_name }}"
     vpc_subnet_id:  "{{ item.id }}"
     user_data: "{{ lookup('file', 'user_data.sh') }}"
-    key_name: test
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    key_name: windows11
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
     network:
       assign_public_ip: false
   register: instance_data

@@ -6,51 +6,57 @@
       - "{{ server_lb_2_id }}"
       - "{{ nat_id }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+  tags: destroy
 
 - name: Destroy Load Balancer
   amazon.aws.elb_application_lb:
     name: "{{ lb_name }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+  tags: destroy
 
 - name: Destroy Target Group
   community.aws.elb_target_group:
     name: "{{ tg_name }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+  tags: destroy
 
 - name: Destroy Autoscaling Group
   amazon.aws.autoscaling_group:
     name: "{{ asg_name }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+  tags: destroy
 
 - name: Destroy Launch Configuration
   community.aws.autoscaling_launch_config:
     name: "{{ lc_name }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+  tags: destroy
 
 - name: Destroy Subnets
   amazon.aws.ec2_vpc_subnet:
     cidr: "{{ item }}"
     vpc_id: "{{ vpc.id }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   loop: "{{ subnets_cidr }}"
+  tags: destroy
 
 - name: Destroy Route Tables
   amazon.aws.ec2_vpc_route_table:
@@ -58,34 +64,37 @@
     lookup: id
     route_table_id: "{{  item }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   loop: "{{ rt_ids }}"
+  tags: destroy
 
 - name: Destroy Internet Gateway
   amazon.aws.ec2_vpc_igw:
     vpc_id: "{{ vpc.id }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+  tags: destroy
 
 - name: Destroy Security Groups
   amazon.aws.ec2_security_group:
     group_id: "{{ item }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   loop: "{{ sg_ids }}"
+  tags: destroy
 
 - name: Destroy VPC and its remaining components
   amazon.aws.ec2_vpc_net:
     name: "{{ vpc.name }}"
     vpc_id: "{{ vpc.id }}"
     state: absent
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
-
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+  tags: destroy

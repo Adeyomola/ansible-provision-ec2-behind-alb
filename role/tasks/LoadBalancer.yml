@@ -2,7 +2,7 @@
 - name: Create Load Balancer
   amazon.aws.elb_application_lb:
     name: BiServer-LB
-    region: us-east-1
+    region: "{{ region }}"
     listeners:
       - Protocol: HTTP
         Port: 80
@@ -15,6 +15,6 @@
     subnets:
       - "{{ publicsubnet.subnet.id }}"
       - "{{ publicsubnet1.subnet.id }}"
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   register: load_balancer

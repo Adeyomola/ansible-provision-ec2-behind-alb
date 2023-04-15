@@ -12,7 +12,7 @@
       - Id: "{{ instance_data.results[1].instance_ids[0] }}"
         Port: 80
     state: present
-    region: us-east-1
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   register: tg
